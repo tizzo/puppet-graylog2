@@ -8,24 +8,27 @@ class graylog2::server::install {
     owner => 'root',
     group => 'root',
   }
-  file { [
-      '/tmp/graylog2-server'
-    ]:
+
+  file { '/tmp/graylog2-server':
     ensure => directory,
     owner  => root,
     group  => root,
   }->
+  file { '/opt/graylog2-server':
+    ensure => directory,
+    owner  => root,
+    group  => root,
+  }->
+
   staging::file { 'graylog2-server.tgz':
     source => $serverTarLocation,
   }->
+
   staging::extract { 'graylog2-server.tgz':
     target  => '/tmp/graylog2-server',
     creates => "/tmp/graylog2-server/${$release_name}",
   }->
-  # staging::file { 'graylog-server-source':
-  #   source => "local:///tmp/graylog2-server/${$release_name}",
-  #   target  => '/opt/graylog2-server',
-  # }
+
   exec { "/bin/cp -r /tmp/graylog2-server/${release_name}/* /opt/graylog2-server":
     creates => '/opt/graylog2-server/README.markdown',
   }

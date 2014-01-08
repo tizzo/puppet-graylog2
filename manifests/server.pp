@@ -14,13 +14,23 @@ class graylog2::server (
     $elasticsearch_max_number_of_indices = 20,
     $retention_strategy = 'delete',
     $mongodb_useauth = 'false',
-    $mongodb_host = '127.0.0.1'
+    $mongodb_host = '127.0.0.1',
+    $network_host = false
   ) {
   include graylog2::server::install
+
   file { '/etc/graylog2.conf':
     owner => root,
     group => root,
     mode  => 755,
-    content => template('graylog2/graylog.conf.erb'),
+    content => template('graylog2/graylog2.conf.erb'),
   }
+
+  file { '/etc/graylog2-elasticsearch.yml':
+    owner => root,
+    group => root,
+    mode  => 755,
+    content => template('graylog2/graylog2-elasticsearch.yml.erb'),
+  }
+
 }
