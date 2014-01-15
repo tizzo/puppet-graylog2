@@ -1,13 +1,13 @@
 class graylog2::server::install {
 
   $serverTarLocation = 'https://github.com/Graylog2/graylog2-server/releases/download/0.20.0-preview.8/graylog2-server-0.20.0-preview.8.tgz'
-  $release_name = 'graylog2-server-0.20.0-preview.8'
+  $release_name = '0.20.0-preview.8'
 
-  class { 'staging':
+  ensure_resource('class', 'staging', {
     path  => '/tmp/staging',
     owner => 'root',
     group => 'root',
-  }
+  })
 
   file { '/tmp/graylog2-server':
     ensure => directory,
