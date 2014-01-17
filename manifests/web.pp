@@ -11,13 +11,6 @@ class graylog2::web (
     ensure   => 'installed',
   }~>
 
-  file { '/etc/graylog2-server-node-id':
-    owner  => 'graylog2',
-    ensure => 'file',
-    group  => 'root',
-    mode   => 755,
-  }->
-
   file { '/etc/graylog2/web.conf':
     owner => root,
     group => root,

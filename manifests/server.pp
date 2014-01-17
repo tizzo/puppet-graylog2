@@ -33,6 +33,13 @@ class graylog2::server (
     content => template('graylog2/graylog2-server.conf.erb'),
   }~>
 
+  file { '/etc/graylog2-server-node-id':
+    owner  => 'graylog2',
+    ensure => 'file',
+    group  => 'root',
+    mode   => 755,
+  }->
+
   file { '/etc/graylog2/graylog2-elasticsearch.yml':
     owner => root,
     group => root,
