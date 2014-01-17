@@ -2,6 +2,7 @@ class graylog2::server (
     $is_master = 'true',
     $password_secret = 'secret',
     $root_username = 'admin',
+    $root_password_sha2 = '',
     $rest_listen_uri = 'http://127.0.0.1:12900/',
     $elasticsearch_max_docs_per_index = 20000000,
     $elasticsearch_cluster_name = 'graylog2',
@@ -17,20 +18,25 @@ class graylog2::server (
     $mongodb_host = '127.0.0.1',
     $network_host = false
   ) {
-  include graylog2::server::install
 
-  file { '/etc/graylog2.conf':
+  class { 'graylog2::server::install': }~>
+
+  file { '/etc/graylog2/server.conf':
     owner => root,
     group => root,
     mode  => 755,
-    content => template('graylog2/graylog2.conf.erb'),
-  }
+    content => template('graylog2/graylog2-server.conf.erb'),
+  }~>
 
-  file { '/etc/graylog2-elasticsearch.yml':
+  file { '/etc/graylog2/graylog2-elasticsearch.yml':
     owner => root,
     group => root,
     mode  => 755,
     content => template('graylog2/graylog2-elasticsearch.yml.erb'),
-  }
+  }~>
 
+  service { 'graylog2-server':
+    enable => 'true',
+    ensure => 'running',
+  }
 }
