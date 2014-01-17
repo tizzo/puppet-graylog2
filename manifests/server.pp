@@ -16,10 +16,15 @@ class graylog2::server (
     $retention_strategy = 'delete',
     $mongodb_useauth = 'false',
     $mongodb_host = '127.0.0.1',
-    $network_host = false
+    $network_host = false,
+    $package_location = 'https://github.com/jaxxstorm/graylog2-server-rpm/releases/download/0.20.0-rc1/graylog2-server-0.20.0-rc1.el6.noarch.rpm'
   ) {
 
-  class { 'graylog2::server::install': }~>
+  package { 'graylog2-server':
+    provider => 'rpm',
+    source   => $package_location,
+    ensure   => 'installed',
+  }~>
 
   file { '/etc/graylog2/server.conf':
     owner => root,
@@ -40,3 +45,4 @@ class graylog2::server (
     ensure => 'running',
   }
 }
+

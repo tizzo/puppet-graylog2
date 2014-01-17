@@ -1,10 +1,15 @@
 class graylog2::web (
     $application_secret = 'CHANGE_ME',
     $graylog2_server_uris = 'http://127.0.0.1:12900/',
-    $timezone = "Europe/Berlin"
+    $timezone = "Europe/Berlin",
+    $package_location = 'https://github.com/jaxxstorm/graylog2-web-rpm/releases/download/0.20.0-rc1/graylog2-web-0.20.0-rc1.el6.noarch.rpm',
   ) {
 
-  include graylog2::web::install
+  package { 'graylog2-web':
+    provider => 'rpm',
+    source   => $package_location,
+    ensure   => 'installed',
+  }~>
 
   file { '/etc/graylog2-server-node-id':
     owner  => 'graylog2',
