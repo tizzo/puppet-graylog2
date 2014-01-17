@@ -11,12 +11,14 @@ class graylog2::server (
     $elasticsearch_discovery_zen_ping_unicast_hosts = '127.0.0.1:9200',
     $elasticsearch_index_prefix = 'graylog2',
     $elasticsearch_replicas = 0,
-    $elasticsearch_shards = 4,
+    $elasticsearch_shards = 1,
     $elasticsearch_max_number_of_indices = 20,
     $retention_strategy = 'delete',
     $mongodb_useauth = 'false',
     $mongodb_host = '127.0.0.1',
     $network_host = false,
+    $elasticsearch_node_master = 'false',
+    $elasticsearch_node_data = 'false',
     $package_location = 'https://github.com/jaxxstorm/graylog2-server-rpm/releases/download/0.20.0-rc1/graylog2-server-0.20.0-rc1.el6.noarch.rpm'
   ) {
 
