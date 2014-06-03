@@ -58,8 +58,8 @@ elasticsearch_cluster_name = <%= @elasticsearch_cluster_name %>
 elasticsearch_node_name = <%= @elasticsearch_node_name %>
 
 # we don't want the graylog2 server to store any data, or be master node
-elasticsearch_node_master = <%= elasticsearch_node_master %>
-elasticsearch_node_data = <%= elasticsearch_node_data %>
+elasticsearch_node_master = <%= @elasticsearch_node_master %>
+elasticsearch_node_data = <%= @elasticsearch_node_data %>
 
 # use a different port if you run multiple elasticsearch nodes on one machine
 #elasticsearch_transport_tcp_port = 9350
