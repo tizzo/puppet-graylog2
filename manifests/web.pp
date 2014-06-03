@@ -6,16 +6,15 @@ class graylog2::web (
   ) {
 
   package { 'graylog2-web':
-    provider => 'rpm',
-    source   => $package_location,
     ensure   => 'installed',
   }~>
 
-  file { '/etc/graylog2/web.conf':
-    owner => root,
-    group => root,
-    mode  => 755,
+  file { '/etc/graylog2/web/graylog2-web-interface.conf':
+    owner   => root,
+    group   => root,
+    mode    => 755,
     content => template('graylog2/web.conf.erb'),
+    notify  => Service['graylog2-web'],
   }~>
 
   service { 'graylog2-web':

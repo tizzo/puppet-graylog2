@@ -2,13 +2,13 @@ class graylog2::server (
     $is_master = 'true',
     $password_secret = 'secret',
     $root_username = 'admin',
-    $root_password_sha2 = '',
-    $rest_listen_uri = 'http://127.0.0.1:12900/',
+    $root_password_sha256 = '',
+    $rest_listen_uri = 'http://0.0.0.0:12900/',
     $elasticsearch_max_docs_per_index = 20000000,
     $elasticsearch_cluster_name = 'graylog2',
     $elasticsearch_node_name = 'graylog2-server',
     $elasticsearch_discovery_zen_ping_multicast_enabled = false,
-    $elasticsearch_discovery_zen_ping_unicast_hosts = '127.0.0.1:9200',
+    $elasticsearch_discovery_zen_ping_unicast_hosts = '127.0.0.1:9300',
     $elasticsearch_index_prefix = 'graylog2',
     $elasticsearch_replicas = 0,
     $elasticsearch_shards = 1,
@@ -19,24 +19,39 @@ class graylog2::server (
     $network_host = false,
     $elasticsearch_node_master = 'false',
     $elasticsearch_node_data = 'false',
-    $package_location = 'https://github.com/jaxxstorm/graylog2-server-rpm/releases/download/0.20.0-rc1/graylog2-server-0.20.0-rc1.el6.noarch.rpm'
-  ) {
+    $server_package_location = $graylog2::params::server_package_location,
+    $package_provider = $graylog2::params::package_provider
+  ) inherits graylog2::params {
+
+  include graylog2::install
 
   package { 'graylog2-server':
-    provider => 'rpm',
-    source   => $package_location,
     ensure   => 'installed',
+    require  => Apt::Source['graylog2'],
   }~>
 
-  file { '/etc/graylog2/server.conf':
+  file { '/etc/default/graylog2-server':
+    owner   => 'root',
+    group   => 'root',
+    content => "# Change to yes, to enable Graylog2 on boot\nRUN=yes"
+  }~>
+
+  file { '/etc/default/graylog2-web':
+    owner   => 'root',
+    group   => 'root',
+    content => "# Change to yes, to enable Graylog2 on boot\nRUN=yes"
+  }
+
+  file { '/etc/graylog2/server/server.conf':
     owner => root,
     group => root,
     mode  => 755,
     content => template('graylog2/graylog2-server.conf.erb'),
+    notify => Service['graylog2-server'],
   }~>
 
   file { '/etc/graylog2-server-node-id':
-    owner  => 'graylog2',
+    owner  => $graylog2::params::graylog2_user,
     ensure => 'file',
     group  => 'root',
     mode   => 755,

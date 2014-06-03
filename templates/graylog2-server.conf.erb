@@ -15,7 +15,7 @@ password_secret = <%= @password_secret %>
 # system and in case you lose connectivity to your authentication backend)
 # Create one by using for example: echo -n yourpassword | shasum -a 256
 # and put the resulting hash value into the following line
-root_password_sha2 = <%= @root_password_sha2 %>
+root_password_sha2 = <%= @root_password_sha256 %>
 
 # Set plugin directory here (relative or absolute)
 plugin_dir = plugin
