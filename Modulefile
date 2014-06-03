@@ -1,0 +1,8 @@
+name    'tizzo-graylog2'
+version '0.0.1'
+source 'https://github.com/tizzo/puppet-graylog2.git'
+author 'tizzo'
+license 'Apache 2.0'
+summary 'Installs and configures graylog2 versions greater than v0.20.0.'
+description 'Installs and configures graylog2 versions greater than v0.20.0.'
+project_page 'https://github.com/tizzo/puppet-graylog2'
